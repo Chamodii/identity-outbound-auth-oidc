@@ -34,6 +34,8 @@ public class OIDCAuthenticatorConstants {
     public static final String ACCESS_TOKEN = "access_token";
     public static final String ID_TOKEN = "id_token";
 
+    public static final String OIDC_LOGOUT_URL="OIDCLogoutEPUrl";
+
     public static final String CLIENT_ID = "ClientId";
     public static final String CLIENT_SECRET = "ClientSecret";
     public static final String OAUTH2_AUTHZ_URL = "OAuth2AuthzEPUrl";
