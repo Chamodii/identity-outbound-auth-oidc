@@ -136,6 +136,7 @@ public class OpenIDConnectAuthenticator extends AbstractApplicationAuthenticator
     }
 
     protected String getLogoutUrl(Map<String, String> authenticatorProperties) {
+
         return authenticatorProperties.get(OIDCAuthenticatorConstants.OIDC_LOGOUT_URL);
     }
 
@@ -436,10 +437,12 @@ public class OpenIDConnectAuthenticator extends AbstractApplicationAuthenticator
 
     @Override
     protected void initiateLogoutRequest(HttpServletRequest request, HttpServletResponse response, AuthenticationContext context) throws LogoutFailedException {
-        try{
-            response.sendRedirect(getLogoutUrl(context.getAuthenticatorProperties()));
-        }
-        catch(IOException e){
+
+        try {
+            if (StringUtils.isNotEmpty(getLogoutUrl(context.getAuthenticatorProperties()))) {
+                response.sendRedirect(getLogoutUrl(context.getAuthenticatorProperties()));
+            }
+        } catch (IOException e) {
             throw new LogoutFailedException(e.getMessage(), e);
         }
     }
