@@ -16,18 +16,19 @@
   ~ specific language governing permissions and limitations
   ~ under the License.
   -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <parent>
         <groupId>org.wso2</groupId>
         <artifactId>wso2</artifactId>
-        <version>1.2</version>
+        <version>1</version>
     </parent>
 
     <groupId>org.wso2.carbon.identity.outbound.auth.oidc</groupId>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>identity-application-auth-oidc</artifactId>
-    <version>5.3.1-SNAPSHOT</version>
+    <version>5.2.4</version>
     <packaging>pom</packaging>
     <name>WSO2 Carbon - OpenID Connect Application Authenticator Feature Aggregator Module</name>
     <description>
@@ -37,9 +38,10 @@
 
     <scm>
         <url>https://github.com/wso2-extensions/identity-outbound-auth-oidc.git</url>
-        <developerConnection>scm:git:https://github.com/wso2-extensions/identity-outbound-auth-oidc.git</developerConnection>
+        <developerConnection>scm:git:https://github.com/wso2-extensions/identity-outbound-auth-oidc.git
+        </developerConnection>
         <connection>scm:git:https://github.com/wso2-extensions/identity-outbound-auth-oidc.git</connection>
-        <tag>HEAD</tag>
+        <tag>v5.2.4</tag>
     </scm>
 
     <repositories>
@@ -154,9 +156,9 @@
                 <version>${json.wso2.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.ops4j.pax.logging</groupId>
-                <artifactId>pax-logging-api</artifactId>
-                <version>${pax.logging.api.version}</version>
+                <groupId>org.wso2.carbon</groupId>
+                <artifactId>org.wso2.carbon.logging</artifactId>
+                <version>${carbon.kernel.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
@@ -229,10 +231,11 @@
     <build>
         <pluginManagement>
             <plugins>
+
                 <plugin>
                     <groupId>org.apache.felix</groupId>
                     <artifactId>maven-bundle-plugin</artifactId>
-                    <version>3.2.0</version>
+                    <version>2.4.0</version>
                     <extensions>true</extensions>
                     <configuration>
                         <obrRepository>NONE</obrRepository>
@@ -259,21 +262,15 @@
                     </configuration>
                 </plugin>
                 <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-javadoc-plugin</artifactId>
-                    <configuration>
-                        <source>1.8</source>
-                    </configuration>
+                    <groupId>org.apache.felix</groupId>
+                    <artifactId>maven-scr-plugin</artifactId>
+                    <version>${maven.scr.plugin.version}</version>
                     <executions>
                         <execution>
-                            <id>attach-javadocs</id>
+                            <id>generate-scr-scrdescriptor</id>
                             <goals>
-                                <goal>jar</goal>
+                                <goal>scr</goal>
                             </goals>
-                            <configuration>
-                                <!--This parameter disables doclint-->
-                                <doclint>none</doclint>
-                            </configuration>
                         </execution>
                     </executions>
                 </plugin>
@@ -298,8 +295,8 @@
                 <inherited>true</inherited>
                 <configuration>
                     <encoding>UTF-8</encoding>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>1.7</source>
+                    <target>1.7</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -315,11 +312,11 @@
         <identity.application.auth.oidc.package.export.version>${project.version}
         </identity.application.auth.oidc.package.export.version>
 
-        <carbon.identity.framework.version>5.14.0</carbon.identity.framework.version>
+        <carbon.identity.framework.version>5.9.0</carbon.identity.framework.version>
         <oltu.version>1.0.0.wso2v3</oltu.version>
         <json-smart.version>2.3</json-smart.version>
         <json.wso2.version>3.0.0.wso2v1</json.wso2.version>
-        <carbon.kernel.version>4.5.0-m3</carbon.kernel.version>
+        <carbon.kernel.version>4.4.7</carbon.kernel.version>
         <maven.buildnumber.plugin.version>1.4</maven.buildnumber.plugin.version>
         <carbon.p2.plugin.version>1.5.3</carbon.p2.plugin.version>
         <org.slf4j.verison>1.6.1</org.slf4j.verison>
@@ -327,16 +324,15 @@
         <jacoco.version>0.7.9</jacoco.version>
         <maven.surefire.plugin.version>2.18.1</maven.surefire.plugin.version>
         <mokito.version>1.6.6</mokito.version>
-        <carbon.identity.oauth.common.version>6.2.0</carbon.identity.oauth.common.version>
+        <carbon.identity.oauth.common.version>6.0.0</carbon.identity.oauth.common.version>
 
         <commons-lang.wso2.version>2.6.0.wso2v1</commons-lang.wso2.version>
         <commons-collections.wso2.version>3.2.2.wso2v1</commons-collections.wso2.version>
         <commons-codec.version>1.4.0.wso2v1</commons-codec.version>
 
-        <identity.framework.package.import.version.range>[5.14.0, 6.0.0)
+        <identity.framework.package.import.version.range>[5.0.0, 6.0.0)
         </identity.framework.package.import.version.range>
-        <carbon.kernel.package.import.version.range>[4.5.0, 5.0.0)</carbon.kernel.package.import.version.range>
-        <carbon.identity.oauth.common.package.import.version.range>[6.2.0, 7.0.0)
+        <carbon.identity.oauth.common.package.import.version.range>[6.0.0, 7.0.0)
         </carbon.identity.oauth.common.package.import.version.range>
         <carbon.kernel.package.import.version.range>[4.4.0, 5.0.0)</carbon.kernel.package.import.version.range>
         <net.minidev.json.imp.pkg.version.range>[2.3.0, 3.0.0)</net.minidev.json.imp.pkg.version.range>
@@ -349,8 +345,7 @@
         <commons-collections.wso2.osgi.version.range>[3.2.0,4.0.0)</commons-collections.wso2.osgi.version.range>
         <osgi.framework.imp.pkg.version.range>[1.7.0, 2.0.0)</osgi.framework.imp.pkg.version.range>
         <osgi.service.component.imp.pkg.version.range>[1.2.0, 2.0.0)</osgi.service.component.imp.pkg.version.range>
-        <!-- Pax Logging Version -->
-        <pax.logging.api.version>1.10.1</pax.logging.api.version>
+
         <apache.felix.scr.ds.annotations.version>1.2.4</apache.felix.scr.ds.annotations.version>
         <maven.scr.plugin.version>1.22.0</maven.scr.plugin.version>
         <nimbusds.version>7.3.0.wso2v1</nimbusds.version>
