@@ -41,6 +41,7 @@ import org.wso2.carbon.identity.application.authentication.framework.AbstractApp
 import org.wso2.carbon.identity.application.authentication.framework.FederatedApplicationAuthenticator;
 import org.wso2.carbon.identity.application.authentication.framework.context.AuthenticationContext;
 import org.wso2.carbon.identity.application.authentication.framework.exception.AuthenticationFailedException;
+import org.wso2.carbon.identity.application.authentication.framework.exception.LogoutFailedException;
 import org.wso2.carbon.identity.application.authentication.framework.model.AuthenticatedUser;
 import org.wso2.carbon.identity.application.authentication.framework.util.FrameworkConstants;
 import org.wso2.carbon.identity.application.authentication.framework.util.FrameworkUtils;
@@ -82,7 +83,7 @@ public class OpenIDConnectAuthenticator extends AbstractApplicationAuthenticator
 
     private static final long serialVersionUID = -4154255583070524018L;
 
-    private static Log log = LogFactory.getLog(OpenIDConnectAuthenticator.class);
+    private static final Log log = LogFactory.getLog(OpenIDConnectAuthenticator.class);
     private static final String OIDC_DIALECT = "http://wso2.org/oidc/claim";
 
     private static final String DYNAMIC_PARAMETER_LOOKUP_REGEX = "\\$\\{(\\w+)\\}";
@@ -132,6 +133,11 @@ public class OpenIDConnectAuthenticator extends AbstractApplicationAuthenticator
             callbackUrl = IdentityUtil.getServerURL(FrameworkConstants.COMMONAUTH, true, true);
         }
         return callbackUrl;
+    }
+
+    protected String getLogoutUrl(Map<String, String> authenticatorProperties) {
+
+        return authenticatorProperties.get(OIDCAuthenticatorConstants.OIDC_LOGOUT_URL);
     }
 
     /**
@@ -265,6 +271,7 @@ public class OpenIDConnectAuthenticator extends AbstractApplicationAuthenticator
                 String authorizationEP = getOIDCAuthzEndpoint(authenticatorProperties);
                 String callbackurl = getCallbackUrl(authenticatorProperties);
                 String state = getStateParameter(context, authenticatorProperties);
+                String logouturl= getLogoutUrl(authenticatorProperties);
 
                 OAuthClientRequest authzRequest;
 
@@ -425,6 +432,16 @@ public class OpenIDConnectAuthenticator extends AbstractApplicationAuthenticator
 
         } catch (OAuthProblemException e) {
             throw new AuthenticationFailedException("Authentication process failed", context.getSubject(), e);
+        }
+    }
+
+    @Override
+    protected void initiateLogoutRequest(HttpServletRequest request, HttpServletResponse response, AuthenticationContext context) throws LogoutFailedException {
+
+        try {
+            response.sendRedirect(getLogoutUrl(context.getAuthenticatorProperties()));
+        } catch (IOException e) {
+            throw new LogoutFailedException("Error occurred while initiating logout request");
         }
     }
 
