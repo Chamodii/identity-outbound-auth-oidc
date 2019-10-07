@@ -136,8 +136,9 @@ public class OpenIDConnectAuthenticator extends AbstractApplicationAuthenticator
 
     protected String getLogoutUrl(Map<String, String> authenticatorProperties) {
 
-        return authenticatorProperties.get(OIDCAuthenticatorConstants.OIDC_LOGOUT_URL);
+        return authenticatorProperties.get(OIDCAuthenticatorConstants.IdPConfParams.OIDC_LOGOUT_URL);
     }
+
 
     /**
      * Returns the token endpoint of OIDC federated authenticator
@@ -386,7 +387,7 @@ public class OpenIDConnectAuthenticator extends AbstractApplicationAuthenticator
                         authenticatorProperties.get(OIDCAuthenticatorConstants.CLIENT_ID));
             }
 
-            OIDCStateInfo stateInfoOIDC=new OIDCStateInfo();
+            OIDCStateInfo stateInfoOIDC = new OIDCStateInfo();
             stateInfoOIDC.setIdTokenHint(idToken);
             context.setStateInfo(stateInfoOIDC);
 
