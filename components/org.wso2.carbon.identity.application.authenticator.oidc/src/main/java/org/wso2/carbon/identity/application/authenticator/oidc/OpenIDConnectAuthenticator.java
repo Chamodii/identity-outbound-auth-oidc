@@ -401,7 +401,7 @@ public class OpenIDConnectAuthenticator extends AbstractApplicationAuthenticator
 
             OIDCStateInfo stateInfoOIDC = new OIDCStateInfo();
             stateInfoOIDC.setIdTokenHint(idToken);
-            context.setStateInfo(stateInfoOIDC);
+            context.setStateInfo(OIDCAuthenticatorConstants.AUTHENTICATOR_NAME, stateInfoOIDC);
 
             context.setProperty(OIDCAuthenticatorConstants.ACCESS_TOKEN, accessToken);
 
@@ -493,8 +493,10 @@ public class OpenIDConnectAuthenticator extends AbstractApplicationAuthenticator
 
     private String getIdTokenHint(AuthenticationContext context) {
 
-        if (context.getStateInfo() instanceof OIDCStateInfo) {
-            return ((OIDCStateInfo) context.getStateInfo()).getIdTokenHint();
+        if (context.getStateInfo(OIDCAuthenticatorConstants.AUTHENTICATOR_NAME) instanceof OIDCStateInfo) {
+            OIDCStateInfo stateInfoOIDC = (OIDCStateInfo) context.getStateInfo(OIDCAuthenticatorConstants.
+                    AUTHENTICATOR_NAME);
+            return stateInfoOIDC.getIdTokenHint();
         }
         return null;
     }
